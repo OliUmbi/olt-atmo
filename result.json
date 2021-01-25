@@ -1,0 +1,200 @@
+{
+  "body": {
+    "devices": [
+      {
+        "_id": "70:ee:50:67:4b:76",
+        "station_name": "Netatmo",
+        "date_setup": 1611340177,
+        "last_setup": 1611340177,
+        "type": "NHC",
+        "last_status_store": 1611522999,
+        "firmware": 50,
+        "wifi_status": 46,
+        "user_owner": [
+          "600b18e70b68e114c367022b"
+        ],
+        "reachable": true,
+        "alarm_config": {
+          "personnalized": [
+            {
+              "threshold": 26,
+              "data_type": 1,
+              "direction": 0,
+              "default": 1,
+              "db_alarm_number": 8
+            },
+            {
+              "threshold": 27,
+              "data_type": 1,
+              "direction": 0,
+              "default": 1,
+              "db_alarm_number": 8
+            },
+            {
+              "threshold": 29,
+              "data_type": 1,
+              "direction": 0,
+              "default": 1,
+              "db_alarm_number": 8
+            },
+            {
+              "threshold": 17,
+              "data_type": 1,
+              "direction": 1,
+              "default": 2,
+              "db_alarm_number": 9
+            },
+            {
+              "threshold": 16,
+              "data_type": 1,
+              "direction": 1,
+              "default": 2,
+              "db_alarm_number": 9
+            },
+            {
+              "threshold": 15,
+              "data_type": 1,
+              "direction": 1,
+              "default": 2,
+              "db_alarm_number": 9
+            },
+            {
+              "threshold": 1150,
+              "data_type": 3,
+              "direction": 0,
+              "default": 3,
+              "db_alarm_number": 12
+            },
+            {
+              "threshold": 1400,
+              "data_type": 3,
+              "direction": 0,
+              "default": 3,
+              "db_alarm_number": 12
+            },
+            {
+              "threshold": 1600,
+              "data_type": 3,
+              "direction": 0,
+              "default": 3,
+              "db_alarm_number": 12
+            },
+            {
+              "threshold": 60,
+              "data_type": 5,
+              "direction": 0,
+              "default": 4,
+              "db_alarm_number": 10
+            },
+            {
+              "threshold": 70,
+              "data_type": 5,
+              "direction": 0,
+              "default": 4,
+              "db_alarm_number": 10
+            },
+            {
+              "threshold": 80,
+              "data_type": 5,
+              "direction": 0,
+              "default": 4,
+              "db_alarm_number": 10
+            },
+            {
+              "threshold": 30,
+              "data_type": 5,
+              "direction": 1,
+              "default": 5,
+              "db_alarm_number": 11
+            },
+            {
+              "threshold": 20,
+              "data_type": 5,
+              "direction": 1,
+              "default": 5,
+              "db_alarm_number": 11
+            },
+            {
+              "threshold": 15,
+              "data_type": 5,
+              "direction": 1,
+              "default": 5,
+              "db_alarm_number": 11
+            },
+            {
+              "threshold": 65,
+              "data_type": 4,
+              "direction": 0,
+              "default": 6,
+              "db_alarm_number": 16
+            },
+            {
+              "threshold": 70,
+              "data_type": 4,
+              "direction": 0,
+              "default": 6,
+              "db_alarm_number": 16
+            },
+            {
+              "threshold": 80,
+              "data_type": 4,
+              "direction": 0,
+              "default": 6,
+              "db_alarm_number": 16
+            }
+          ]
+        },
+        "co2_calibrating": false,
+        "hardware_version": 240,
+        "customer_id": "C00013",
+        "data_type": [
+          "Temperature",
+          "CO2",
+          "Humidity",
+          "Noise",
+          "Pressure",
+          "health_idx"
+        ],
+        "place": {
+          "altitude": 443,
+          "city": "Fislisbach",
+          "street": "Oberrohrdorferstrasse",
+          "country": "CH",
+          "timezone": "Europe\/Zurich",
+          "location": [
+            8.296899795532227,
+            47.43899917602539
+          ]
+        },
+        "name": "Netatmo",
+        "profile": "all",
+        "dashboard_data": {
+          "time_utc": 1611522994,
+          "Temperature": 19.4,
+          "CO2": 1308,
+          "Humidity": 47,
+          "Noise": 44,
+          "Pressure": 1004.4,
+          "AbsolutePressure": 952.8,
+          "health_idx": 1
+        },
+        "advice": "Ein hoher CO2-Wert kann Schl\u00e4frigkeit verursachen. \u00d6ffnen Sie doch einen Moment das Fenster."
+      }
+    ],
+    "user": {
+      "mail": "mumbricht@hispeed.ch",
+      "administrative": {
+        "lang": "de-CH",
+        "reg_locale": "de-CH",
+        "unit": 0,
+        "windunit": 0,
+        "pressureunit": 0,
+        "feel_like_algo": 0
+      },
+      "app_telemetry": false
+    }
+  },
+  "status": "ok",
+  "time_exec": 0.030078887939453125,
+  "time_server": 1611523319
+}
