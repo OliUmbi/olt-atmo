@@ -4,6 +4,10 @@ import java.awt.*;
 
 public class Notification {
 
+    public static void printConsole(String message) {
+        System.out.println(message);
+    }
+
     public static void displayNotification(String message, boolean isError) {
         SystemTray tray = SystemTray.getSystemTray();
 
