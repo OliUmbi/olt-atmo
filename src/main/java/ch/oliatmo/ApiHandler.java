@@ -3,7 +3,7 @@ package ch.oliatmo;
 import ch.oliatmo.dto.Refresh;
 import ch.oliatmo.dto.Token;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.restassured.path.json.JsonPath;
+import io.restassured.path.json.JsonPath;
 
 import java.net.URLEncoder;
 import java.net.http.HttpResponse;
@@ -19,6 +19,7 @@ public class ApiHandler {
     private Date tokenExpireDate;
 
     public void inti() {
+        Notification.printConsole("Initialize program");
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("grant_type", "password");
         parameters.put("client_id", "600e75cefb3abb7fac6a173f");
@@ -32,6 +33,8 @@ public class ApiHandler {
         if (response.statusCode() == 200){
             token = mapResponseToToken(response.body());
             resetExpireDate();
+            Notification.printConsole("Token: \t\t" + token.getAccess_token());
+            Notification.printConsole("Expire date: \t" + tokenExpireDate);
         } else {
             Notification.displayNotification("Non 200 status code " + response.statusCode(), true);
         }
@@ -39,6 +42,8 @@ public class ApiHandler {
 
     public void requestUpdate(){
         if (tokenExpireDate.before(new Date())){
+            Notification.printConsole("Refreshing token");
+
             HashMap<String, String> parameters = new HashMap<>();
             parameters.put("grant_type", "refresh_token");
             parameters.put("refresh_token", token.getRefresh_token());
@@ -54,6 +59,8 @@ public class ApiHandler {
                 token.setRefresh_token(refresh.getRefresh_token());
                 token.setExpire_in(refresh.getExpires_in());
                 resetExpireDate();
+                Notification.printConsole("Token: \t\t" + token.getAccess_token());
+                Notification.printConsole("Expire date: \t" + tokenExpireDate);
             } else {
                 Notification.displayNotification("Non 200 status code " + response.statusCode(), true);
             }
@@ -67,6 +74,7 @@ public class ApiHandler {
             if (co2 > 1300) {
                 Notification.displayNotification("CO2 is to high " + co2, false);
             }
+            Notification.printConsole("Co2: \t\t" + co2);
         } else {
             Notification.displayNotification("Non 200 status code " + response.statusCode(), true);
         }
@@ -97,6 +105,6 @@ public class ApiHandler {
     }
 
     private void resetExpireDate(){
-        tokenExpireDate = new Date(new Date().getTime() + (token.getExpire_in() * 10));
+        tokenExpireDate = new Date(new Date().getTime() + (token.getExpire_in() * 1000));
     }
 }
