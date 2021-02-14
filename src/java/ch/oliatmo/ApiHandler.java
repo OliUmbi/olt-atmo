@@ -3,7 +3,7 @@ package ch.oliatmo;
 import ch.oliatmo.dto.Refresh;
 import ch.oliatmo.dto.Token;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.restassured.path.json.JsonPath;
+import com.jayway.restassured.path.json.JsonPath;
 
 import java.net.URLEncoder;
 import java.net.http.HttpResponse;
