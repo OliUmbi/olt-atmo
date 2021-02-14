@@ -16,15 +16,15 @@ public class Main {
         TokenMapper tokenMapper = new TokenMapper();
         HomeCoachResponseMapper homeCoachResponseMapper = new HomeCoachResponseMapper();
         RefreshRequestMapper refreshRequestMapper = new RefreshRequestMapper(
-                System.getenv("clientId"),
-                System.getenv("clientSecret")
+                System.getenv("oliAtmoClientId"),
+                System.getenv("oliAtmoClientSecret")
         );
 
         AuthenticationRequestMapper authenticationRequestMapper = new AuthenticationRequestMapper(
-                System.getenv("clientId"),
-                System.getenv("clientSecret"),
-                System.getenv("username"),
-                System.getenv("password")
+                System.getenv("oliAtmoClientId"),
+                System.getenv("oliAtmoClientSecret"),
+                System.getenv("oliAtmoUsername"),
+                System.getenv("oliAtmoPassword")
         );
 
         ApiService apiService = new ApiService(
