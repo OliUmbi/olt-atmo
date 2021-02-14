@@ -20,6 +20,7 @@ public class ApiService {
     private final HomeCoachResponseMapper homeCoachResponseMapper;
 
     private RefreshToken refreshToken = new RefreshToken();
+    private final Date currentDate = new Date();
 
     public ApiService(
             CallApi callApi,
@@ -37,16 +38,17 @@ public class ApiService {
     }
 
     public void requestUpdate(){
-        if ((refreshToken.getExpire_in() * 1000) < new Date().getTime()) { refreshToken(); }
+        if (currentDate.after(getExpireDate())) { refreshToken(); }
 
         HttpResponse<String> response = callApi.callHomeCoach(refreshToken.getAccess_token());
 
         if (response.statusCode() == 200) {
             int co2 = homeCoachResponseMapper.getCo2(response.body());
             if (co2 > 1300) {
-                logger.log("CO2 is to high " + co2, Level.WARNING);
+                logger.log("Co2 is to high " + co2, Level.WARNING);
+            } else {
+                logger.log("Co2: \t" + co2, Level.INFO);
             }
-            logger.log("Co2: \t" + co2, Level.INFO);
         } else {
             logger.log("Non 200 status code " + response.statusCode(), Level.SEVERE);
         }
@@ -62,7 +64,7 @@ public class ApiService {
         if (response.statusCode() == 200){
             refreshToken = tokenMapper.mapResponseToRefreshToken(response.body());
             logger.log("Token: \t" + refreshToken.getAccess_token(), Level.INFO);
-            logger.log("Expire: \t" + refreshToken.getExpire_in(), Level.INFO);
+            logger.log("Expire: \t" + getExpireDate(), Level.INFO);
         } else {
             logger.log("Non 200 status code " + response.statusCode(), Level.SEVERE);
         }
@@ -83,9 +85,13 @@ public class ApiService {
             }
 
             logger.log("Token: \t" + refreshToken.getAccess_token(), Level.INFO);
-            logger.log("Expire: \t" + refreshToken.getExpire_in(), Level.INFO);
+            logger.log("Expire: \t" + getExpireDate(), Level.INFO);
         } else {
             logger.log("Non 200 status code " + response.statusCode(), Level.SEVERE);
         }
+    }
+
+    private Date getExpireDate() {
+        return new Date(refreshToken.getExpire_in() * 1000 + currentDate.getTime());
     }
 }
