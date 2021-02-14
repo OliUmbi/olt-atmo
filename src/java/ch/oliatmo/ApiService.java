@@ -20,7 +20,6 @@ public class ApiService {
     private final HomeCoachResponseMapper homeCoachResponseMapper;
 
     private RefreshToken refreshToken = new RefreshToken();
-    private Date tokenExpireDate;
 
     public ApiService(
             CallApi callApi,
@@ -37,45 +36,8 @@ public class ApiService {
         inti();
     }
 
-    public void inti() {
-        logger.log("Initialize program", Level.INFO);
-
-        String authUrlEncode = authenticationRequestMapper.build("read_homecoach");
-
-        HttpResponse<String> response = callApi.callAuthentication(authUrlEncode);
-
-        if (response.statusCode() == 200){
-            refreshToken = tokenMapper.mapResponseToRefreshToken(response.body());
-            resetExpireDate();
-            logger.log("Token: \t" + refreshToken.getAccess_token(), Level.INFO);
-            logger.log("Expire: \t" + tokenExpireDate, Level.INFO);
-        } else {
-            logger.log("Non 200 status code " + response.statusCode(), Level.SEVERE);
-        }
-    }
-
     public void requestUpdate(){
-        if ((refreshToken.getExpire_in() * 1000) < new Date().getTime()){
-            logger.log("Refreshing token", Level.INFO);
-
-            String refreshURlEncode = refreshRequestMapper.build(refreshToken.getRefresh_token());
-
-            HttpResponse<String> response = callApi.callAuthentication(refreshURlEncode);
-
-            if (response.statusCode() == 200) {
-                try {
-                    refreshToken = tokenMapper.mapRefreshResponseToRefreshToken(response.body(), refreshToken);
-                } catch (Exception e) {
-                    logger.log("Failed to Map new refresh Token " + response.statusCode(), Level.SEVERE);
-                }
-
-                resetExpireDate();
-                logger.log("Token: \t" + refreshToken.getAccess_token(), Level.INFO);
-                logger.log("Expire: \t" + tokenExpireDate, Level.INFO);
-            } else {
-                logger.log("Non 200 status code " + response.statusCode(), Level.SEVERE);
-            }
-        }
+        if ((refreshToken.getExpire_in() * 1000) < new Date().getTime()) { refreshToken(); }
 
         HttpResponse<String> response = callApi.callHomeCoach(refreshToken.getAccess_token());
 
@@ -85,6 +47,43 @@ public class ApiService {
                 logger.log("CO2 is to high " + co2, Level.WARNING);
             }
             logger.log("Co2: \t" + co2, Level.INFO);
+        } else {
+            logger.log("Non 200 status code " + response.statusCode(), Level.SEVERE);
+        }
+    }
+
+    private void inti() {
+        logger.log("Initialize program", Level.INFO);
+
+        String authUrlEncode = authenticationRequestMapper.build("read_homecoach");
+
+        HttpResponse<String> response = callApi.callAuthentication(authUrlEncode);
+
+        if (response.statusCode() == 200){
+            refreshToken = tokenMapper.mapResponseToRefreshToken(response.body());
+            logger.log("Token: \t" + refreshToken.getAccess_token(), Level.INFO);
+            logger.log("Expire: \t" + refreshToken.getExpire_in(), Level.INFO);
+        } else {
+            logger.log("Non 200 status code " + response.statusCode(), Level.SEVERE);
+        }
+    }
+
+    private void refreshToken() {
+        logger.log("Refreshing token", Level.INFO);
+
+        String refreshURlEncode = refreshRequestMapper.build(refreshToken.getRefresh_token());
+
+        HttpResponse<String> response = callApi.callAuthentication(refreshURlEncode);
+
+        if (response.statusCode() == 200) {
+            try {
+                refreshToken = tokenMapper.mapRefreshResponseToRefreshToken(response.body(), refreshToken);
+            } catch (Exception e) {
+                logger.log("Failed to Map new refresh Token " + response.statusCode(), Level.SEVERE);
+            }
+
+            logger.log("Token: \t" + refreshToken.getAccess_token(), Level.INFO);
+            logger.log("Expire: \t" + refreshToken.getExpire_in(), Level.INFO);
         } else {
             logger.log("Non 200 status code " + response.statusCode(), Level.SEVERE);
         }
