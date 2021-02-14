@@ -4,13 +4,15 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.logging.Level;
 
 public class CallApi {
 
+    private final Logger logger = new Logger();
+    private final HttpClient client = HttpClient.newHttpClient();
+
     public HttpResponse<String> callHomeCoach(String accessToken){
         try {
-            HttpClient client = HttpClient.newHttpClient();
-
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("https://api.netatmo.com/api/gethomecoachsdata?device_id=70%3Aee%3A50%3A67%3A4b%3A76"))
                     .GET()
@@ -20,15 +22,13 @@ public class CallApi {
 
             return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            Notification.displayNotification("Exception calling Home Coach: " + e, true);
+            logger.log("Exception calling Home Coach: " + e, Level.SEVERE);
             return null;
         }
     }
 
     public HttpResponse<String> callAuthentication(String body){
         try {
-            HttpClient client = HttpClient.newHttpClient();
-
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("https://api.netatmo.com/oauth2/token"))
                     .POST(HttpRequest.BodyPublishers.ofString(body))
@@ -37,7 +37,7 @@ public class CallApi {
 
             return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            Notification.displayNotification("Exception calling Authentication: " + e, true);
+            logger.log("Exception calling Authentication: " + e, Level.SEVERE);
             return null;
         }
     }
