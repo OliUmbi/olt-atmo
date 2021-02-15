@@ -12,7 +12,7 @@ public class HomeCoachService {
     private final HomeCoachResponseMapper homeCoachResponseMapper = new HomeCoachResponseMapper();
 
     public void requestUpdate(){
-        if (refreshTokenService.isRefreshTokenExpired() || yeet) { refreshTokenService.updateRefreshToken(); }
+        if (refreshTokenService.isRefreshTokenExpired()) { refreshTokenService.updateRefreshToken(); }
 
         HttpResponse<String> response = callApi.callHomeCoach(refreshTokenService.getAccessToken());
 
