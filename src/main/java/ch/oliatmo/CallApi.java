@@ -8,7 +8,6 @@ import java.util.logging.Level;
 
 public class CallApi {
 
-    private final Logger logger = new Logger();
     private final HttpClient client = HttpClient.newHttpClient();
 
     public HttpResponse<String> callHomeCoach(String accessToken){
@@ -22,7 +21,7 @@ public class CallApi {
 
             return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            logger.log("Exception calling Home Coach: " + e, Level.SEVERE);
+            Logger.log("Exception calling Home Coach: " + e, Level.SEVERE);
             return null;
         }
     }
@@ -37,7 +36,7 @@ public class CallApi {
 
             return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            logger.log("Exception calling Authentication: " + e, Level.SEVERE);
+            Logger.log("Exception calling Authentication: " + e, Level.SEVERE);
             return null;
         }
     }
