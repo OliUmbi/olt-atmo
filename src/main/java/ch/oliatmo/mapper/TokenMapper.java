@@ -8,11 +8,13 @@ import java.util.logging.Level;
 
 public class TokenMapper {
 
+    private final Logger logger = Logger.getInstance();
+
     public RefreshToken mapResponseToRefreshToken(String response) {
         try {
             return new ObjectMapper().readValue(response, RefreshToken.class);
         } catch (Exception e){
-            Logger.log("Exception mapping to Refresh: " + e, Level.SEVERE);
+            logger.log("Exception mapping to Refresh: " + e, Level.SEVERE);
             return null;
         }
     }

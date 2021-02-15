@@ -11,6 +11,7 @@ import java.util.logging.Level;
 
 public class RefreshTokenService {
 
+    private final Logger logger = Logger.getInstance();
     private final AuthenticationRequestMapper authenticationRequestMapper = new AuthenticationRequestMapper(
             System.getenv("oliAtmoClientId"),
             System.getenv("oliAtmoClientSecret"),
@@ -30,7 +31,7 @@ public class RefreshTokenService {
     }
 
     public void updateRefreshToken() {
-        Logger.log("Updating Token", Level.INFO);
+        logger.log("Updating Token", Level.INFO);
         String refreshURlEncode = refreshRequestMapper.build(refreshToken.getRefresh_token());
 
         HttpResponse<String> response = callApi.callAuthentication(refreshURlEncode);
@@ -40,7 +41,7 @@ public class RefreshTokenService {
                 refreshToken = tokenMapper.mapRefreshResponseToRefreshToken(response.body(), refreshToken);
                 resetExpireDate();
             } catch (Exception e) {
-                Logger.log("Failed to Map new refresh Token " + response.statusCode(), Level.SEVERE);
+                logger.log("Failed to Map new refresh Token " + response.statusCode(), Level.SEVERE);
             }
         } else {
             none200StatusCode(response.statusCode());
@@ -56,7 +57,7 @@ public class RefreshTokenService {
     }
 
     private void initializeRefreshToken() {
-        Logger.log("Initializing Program", Level.INFO);
+        logger.log("Initializing Program", Level.INFO);
         String authUrlEncode = authenticationRequestMapper.build("read_homecoach");
 
         HttpResponse<String> response = callApi.callAuthentication(authUrlEncode);
@@ -71,10 +72,10 @@ public class RefreshTokenService {
 
     private void resetExpireDate() {
         expireDate = new Date(refreshToken.getExpire_in() * 1000 + currentDate.getTime());
-        Logger.log("Expire:\t" + expireDate.toString(), Level.INFO);
+        logger.log("Expire:\t" + expireDate.toString(), Level.INFO);
     }
 
     private void none200StatusCode(int statusCode) {
-        Logger.log("Non 200 status code " + statusCode, Level.SEVERE);
+        logger.log("Non 200 status code " + statusCode, Level.SEVERE);
     }
 }
