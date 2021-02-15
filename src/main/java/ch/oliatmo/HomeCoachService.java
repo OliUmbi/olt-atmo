@@ -19,9 +19,9 @@ public class HomeCoachService {
         if (response.statusCode() == 200) {
             int co2 = homeCoachResponseMapper.getCo2(response.body());
             if (co2 > 1300) {
-                Logger.log("Co2:\t" + co2, Level.WARNING);
+                Logger.log("Co2: " + co2, Level.WARNING);
             } else {
-                Logger.log("Co2:\t" + co2, Level.INFO);
+                Logger.log("Co2: " + co2, Level.INFO);
             }
         } else {
             Logger.log("Non 200 status code " + response.statusCode(), Level.SEVERE);
