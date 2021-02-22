@@ -1,20 +1,22 @@
-package ch.oliatmo.mapper;
+package ch.oliatmo.mappers;
 
-import ch.oliatmo.Logger;
 import ch.oliatmo.dtos.RefreshToken;
+import ch.oliatmo.loggers.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.logging.Level;
 
 public class TokenMapper {
 
-    private final Logger logger = Logger.getInstance();
+    private final Logger logger;
+
+    public TokenMapper(Logger logger) {
+        this.logger = logger;
+    }
 
     public RefreshToken mapResponseToRefreshToken(String response) {
         try {
             return new ObjectMapper().readValue(response, RefreshToken.class);
         } catch (Exception e){
-            logger.log("Exception mapping to Refresh: " + e, Level.SEVERE);
+            logger.error("Exception mapping to Refresh: " + e);
             return null;
         }
     }

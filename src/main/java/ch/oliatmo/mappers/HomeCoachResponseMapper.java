@@ -1,4 +1,4 @@
-package ch.oliatmo.mapper;
+package ch.oliatmo.mappers;
 
 import com.jayway.restassured.path.json.JsonPath;
 

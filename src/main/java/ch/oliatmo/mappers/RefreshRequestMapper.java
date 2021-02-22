@@ -1,4 +1,4 @@
-package ch.oliatmo.mapper;
+package ch.oliatmo.mappers;
 
 import java.util.HashMap;
 
