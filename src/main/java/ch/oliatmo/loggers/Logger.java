@@ -25,7 +25,11 @@ public class Logger {
         } else if (co2Level.equals(Co2Level.EXTREME)){
             displayNotification("CO2: " + co2, MessageType.ERROR);
         }
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (Exception e) {
+            writeConsole(e.getMessage() ,"[INFO]\t");
+        }
         writeConsole("CO2: " + co2, "[INFO]\t");
         System.out.println("\n");
     
@@ -39,35 +43,26 @@ public class Logger {
     }
     
     private void displayCo2Graph () {
-        String[] graph = new String[9];
-        graph[0] = "2000 +";
-        graph[1] = "     ¦";
-        graph[2] = "1500 +";
-        graph[3] = "     ¦";
-        graph[4] = "1000 +";
-        graph[5] = "     ¦";
-        graph[6] = " 500 +";
-        graph[7] = "     ¦";
-        graph[8] = "   0 +";
+        String[] graph = createGraph();
         
         for (int i = 0; i < co2History.size(); i++) {
             for (int j = 0; j < graph.length; j++) {
-                if (j == 8) {
-                    int i8 = i + 1;
-                    if (i8 % 5 == 0) {
-                        graph[8] += "+";
+                if (j == 20) {
+                    int k = i + 1;
+                    if (k % 5 == 0) {
+                        graph[20] += "+";
                     } else {
-                        graph[8] += "-";
+                        graph[20] += "-";
                     }
                 } else {
                     graph[j] += " ";
                 }
             }
-            int co2 = co2History.get(i) / 250;
+            int co2 = co2History.get(i) / 100;
             if (co2 < 1) {
                 co2 = 1;
             }
-            graph[8 - co2] = replaceLastChar(graph[8 - co2], '.');
+            graph[20 - co2] = replaceLastChar(graph[20 - co2], '.');
         }
     
         for (String graphLine: graph) {
@@ -81,6 +76,32 @@ public class Logger {
 
     private void displayNotification(String message, MessageType messageType) {
         trayIcon.displayMessage("Oli-Atmo", message, messageType);
+    }
+    
+    private String[] createGraph() {
+        String[] graph = new String[21];
+        graph[0] = "2000 +";
+        graph[1] = "     ¦";
+        graph[2] = "1800 +";
+        graph[3] = "     ¦";
+        graph[4] = "1600 +";
+        graph[5] = "     ¦";
+        graph[6] = "1400 +";
+        graph[7] = "     ¦";
+        graph[8] = "1200 +";
+        graph[9] = "     ¦";
+        graph[10] = "1000 +";
+        graph[11] = "     ¦";
+        graph[12] = " 800 +";
+        graph[13] = "     ¦";
+        graph[14] = " 600 +";
+        graph[15] = "     ¦";
+        graph[16] = " 400 +";
+        graph[17] = "     ¦";
+        graph[18] = " 200 +";
+        graph[19] = "     ¦";
+        graph[20] = "   0 +";
+        return graph;
     }
     
     private String replaceLastChar(String string, char character) {
