@@ -1,11 +1,11 @@
-package ch.oliatmo.dto;
+package ch.oliatmo.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Refresh {
+public class RefreshToken {
     private String access_token;
     private String refresh_token;
     private Object scope;

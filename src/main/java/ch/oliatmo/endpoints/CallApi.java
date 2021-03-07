@@ -1,4 +1,6 @@
-package ch.oliatmo;
+package ch.oliatmo.endpoints;
+
+import ch.oliatmo.loggers.Logger;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -7,10 +9,15 @@ import java.net.http.HttpResponse;
 
 public class CallApi {
 
+    private final Logger logger;
+    private final HttpClient client = HttpClient.newHttpClient();
+
+    public CallApi(Logger logger) {
+        this.logger = logger;
+    }
+
     public HttpResponse<String> callHomeCoach(String accessToken){
         try {
-            HttpClient client = HttpClient.newHttpClient();
-
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("https://api.netatmo.com/api/gethomecoachsdata?device_id=70%3Aee%3A50%3A67%3A4b%3A76"))
                     .GET()
@@ -20,15 +27,13 @@ public class CallApi {
 
             return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            Notification.displayNotification("Exception calling Home Coach: " + e, true);
+            logger.error("Exception calling Home Coach: " + e);
             return null;
         }
     }
 
     public HttpResponse<String> callAuthentication(String body){
         try {
-            HttpClient client = HttpClient.newHttpClient();
-
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("https://api.netatmo.com/oauth2/token"))
                     .POST(HttpRequest.BodyPublishers.ofString(body))
@@ -37,7 +42,7 @@ public class CallApi {
 
             return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
-            Notification.displayNotification("Exception calling Authentication: " + e, true);
+            logger.error("Exception calling Authentication: " + e);
             return null;
         }
     }
